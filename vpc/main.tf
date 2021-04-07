@@ -19,7 +19,7 @@ resource "aws_subnet" "servicequik-public-subnet" {
   vpc_id = var.vpc_id
   cidr_block = "10.0.${count.index+1}.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone = var.availibility_zone
+  availability_zone = "ap-south-1a"
   tags = {
     Name = "${var.vpc_name}-pub-subnet-{count.index+1}"
   }
@@ -35,8 +35,8 @@ resource "aws_subnet" "servicequik-private-subnet" {
   vpc_id = var.vpc_id
   cidr_block = "10.0.${count.index+4}.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone = "${var.availibility_zone}"
-  tags =  {
+  availability_zone = "ap-south-1a"
+  tags = {
     Name = "${var.vpc_name}-pri-subnet-{count.index+1}"
   }
 }

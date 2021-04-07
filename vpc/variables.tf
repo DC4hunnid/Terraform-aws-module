@@ -23,5 +23,3 @@ variable "gateway_id" {}
 variable "public_rt_id" {}
 
 variable "private_rt_id" {}
-
-variable "availibility_zone" {}
