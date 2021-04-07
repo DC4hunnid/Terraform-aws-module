@@ -1,0 +1,2 @@
+variable = "availibility_zone" {
+}
