@@ -17,11 +17,12 @@ resource "aws_vpc" "servicequik" {
 resource "aws_subnet" "servicequik-public-subnet" {
   count = 3
   vpc_id = var.vpc_id
+  availability_zone = var.availability_zones[count.index]
   cidr_block = "10.0.${count.index+1}.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone = "ap-south-1a"
+ 
   tags = {
-    Name = "${var.vpc_name}-pub-subnet-{count.index+1}"
+    Name = "${var.vpc_name}-pub-subnet-${count.index+1}"
   }
 }
 
@@ -33,11 +34,11 @@ resource "aws_subnet" "servicequik-public-subnet" {
 resource "aws_subnet" "servicequik-private-subnet" {
   count = 3
   vpc_id = var.vpc_id
+  availability_zone = var.availability_zones[count.index]
   cidr_block = "10.0.${count.index+4}.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone = "ap-south-1a"
   tags = {
-    Name = "${var.vpc_name}-pri-subnet-{count.index+1}"
+    Name = "${var.vpc_name}-pri-subnet-${count.index+1}"
   }
 }
 
@@ -46,9 +47,10 @@ resource "aws_subnet" "servicequik-private-subnet" {
 ##eip##
 
 resource "aws_eip" "servicequik-eip" {
+  count = 3
   vpc = true
+  tags = local.eip_tags
 }
-
 
 
 ##Internet Gateway##
@@ -61,6 +63,18 @@ resource "aws_internet_gateway" "servicequik-igw" {
 }
 
 
+
+
+##NAT Gateway##
+
+resource "aws_nat_gateway" "servicequik-nat" {
+  count = 3
+  allocation_id = aws_eip.servicequik-eip.*.id[count.index]
+  subnet_id = aws_subnet.servicequik-public-subnet.*.id[count.index]
+  tags = {
+    Name = "${var.vpc_name}-nat-${count.index+1}"
+  }
+}
 
 ##Public Route Table##
 
@@ -166,3 +180,20 @@ resource "aws_security_group" "servicequik-sg" {
   }
 }
 
+
+
+
+##EC2 Instance##
+
+resource "aws_instance" "servicequik-instance" {
+  count = 3
+  ami = var.ami
+  instance_type = var.instance_type
+  tenancy = var.tenancy
+  subnet_id = aws_subnet.servicequik-public-subnet.*.id[count.index]
+  availability_zone = var.availability_zones[count.index]
+  #vpc_security_group_ids = var.security_group_id
+  tags = {
+    Name = "${var.vpc_name}-ec2-${count.index+1}"
+  }
+}

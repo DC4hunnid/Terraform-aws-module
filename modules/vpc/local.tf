@@ -4,14 +4,11 @@ locals {
     //Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
   }
   public_route_tags = {
-    Name    = "servicequik-public"
+    Name    = "main-public"
     //Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
   }
   private_route_tags = {
-    Name    = "servicequik-private"
+    Name    = "main-private"
     //Created = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
-  }
-  eip_tags = {
-    Name    = "servicequik-eip"
   }
 }

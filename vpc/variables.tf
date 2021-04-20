@@ -23,3 +23,21 @@ variable "gateway_id" {}
 variable "public_rt_id" {}
 
 variable "private_rt_id" {}
+
+variable "availability_zones" {}
+
+#variable "public_subnet_ids" {
+ # type        = list(string)
+  #default     = []
+ # description = "A list of public subnet ids."
+#}
+
+variable "ami" {}
+
+variable "instance_type" {}
+
+variable "tenancy" {}
+
+variable "security_group_id" {}
+
+variable "availability_zone_micro" {}

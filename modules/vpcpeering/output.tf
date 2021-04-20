@@ -1,0 +1,7 @@
+output "vpc_accepter_id" {
+  value = "data.aws_vpc.accepter.id"
+}
+
+output "vpc_peering_connection_id" {
+  value = aws_vpc_peering_connection.peering-vpc.id
+}
