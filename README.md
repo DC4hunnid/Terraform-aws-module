@@ -24,7 +24,7 @@ variable "region" {
 * Set the VPC Name and VPC Cidr in variables.tf
 ```
 variable "vpc_name" {
-  default = "servicequik"
+  default = "main"
 }
 
 variable "vpc_cidr" {
